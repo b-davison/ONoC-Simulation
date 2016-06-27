@@ -15,17 +15,57 @@ class request:
     def reqProcessing(t):
         if ~scheduled:
             schedule(t)
-        else if ~transmitted:
+        elif ~transmitted:
             transmit()
-        else if timeTrack == t:
+        elif timeTrack == t:
 
 
     def schedule():
-        if sourceNode < destNode:
-            if nodestat[sourceNode:(destNode +1)] = False
-                nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1)-sourceNode)
+
+        # makes source lower than destination
+        if sourceNode > destNode:
+            temp = sourceNode
+            sourceNode = destNode
+            destNode = temp 
+
+        # checks for shortest path
+        # first if triggers if direct (e.g. 123...14 15 16) path is the shortest or equadistant, elif triggers if opposite direction path is shorter
+        if (destNode - sourceNode) =< (nodeCount - destNode + sourceNode):
+            # checks that path is available and if so reserves path
+            if nodestat[sourceNode:(destNode +1)] == False     
+                global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1)-sourceNode)
                 schedule = True
-                timeTrack += timeSchedule + time
+                timeTrack += timeSchedule # insert time parameters
+
+            elif (nodeCount - destNode + sourceNode) < weighted_cutoff
+                if (nodestat[0:(sourceNode +1)] == False) & (nodestat[destNode:] == False):
+                    for i in nodestat:
+                        if i <= sourceNode | i >= destNode:
+                            global nodestat[i] = 1
+                    schedule = True
+                    timeTrack += timeSchedule # insert time parameters
+                else:
+                    timeTrack += 1
+            else:
+                timeTrack += 1
+        else:
+            if (nodestat[0:(sourceNode +1)] == False) & (nodestat[destNode:] == False):
+                for i in nodestat:
+                    if i <= sourceNode | i >= destNode:
+                        global nodestat[i] = 1
+                schedule = True
+                timeTrack += timeSchedule # insert time parameters
+            elif (destNode - sourceNode) < weighted_cutoff
+                global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1) - sourceNode)
+                schedule = True
+                timeTrack += timeSchedule # insert time parameters
+                else:
+                    timeTrack += 1
+            else:
+                timeTrack += 1
+
+
+
 
 
     
