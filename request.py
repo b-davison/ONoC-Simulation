@@ -55,10 +55,11 @@ class request:
                         global nodestat[i] = 1
                 schedule = True
                 timeTrack += timeSchedule # insert time parameters
-            elif (destNode - sourceNode) < weighted_cutoff
-                global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1) - sourceNode)
-                schedule = True
-                timeTrack += timeSchedule # insert time parameters
+            elif (destNode - sourceNode) < weighted_cutoff:
+                if nodestat[sourceNode:(destNode +1)] == False:     
+                    global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1) - sourceNode)
+                    schedule = True
+                    timeTrack += timeSchedule # insert time parameters
                 else:
                     timeTrack += 1
             else:
