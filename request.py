@@ -21,7 +21,6 @@ class request:
 
 
     def schedule():
-
         # makes source lower than destination
         if sourceNode > destNode:
             temp = sourceNode
@@ -32,13 +31,13 @@ class request:
         # first if triggers if direct (e.g. 123...14 15 16) path is the shortest or equadistant, elif triggers if opposite direction path is shorter
         if (destNode - sourceNode) =< (nodeCount - destNode + sourceNode):
             # checks that path is available and if so reserves path
-            if nodestat[sourceNode:(destNode +1)] == False     
+            if nodestat[sourceNode:(destNode +1)] == [False] * (destNode +1 - sourceNode)     
                 global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1)-sourceNode)
                 schedule = True
                 timeTrack += timeSchedule # insert time parameters
 
             elif (nodeCount - destNode + sourceNode) < weighted_cutoff
-                if (nodestat[0:(sourceNode +1)] == False) & (nodestat[destNode:] == False):
+                if (nodestat[0:(sourceNode +1)] == [False] * (sourceNode +1)) & (nodestat[destNode:] == [False] * (nodeCount - destNode)):
                     for i in nodestat:
                         if i <= sourceNode | i >= destNode:
                             global nodestat[i] = 1
@@ -49,14 +48,14 @@ class request:
             else:
                 timeTrack += 1
         else:
-            if (nodestat[0:(sourceNode +1)] == False) & (nodestat[destNode:] == False):
+            if (nodestat[0:(sourceNode +1)] == [False] * (sourceNode +1)) & (nodestat[destNode:] == [False] * (nodeCount - destNode)):
                 for i in nodestat:
                     if i <= sourceNode | i >= destNode:
                         global nodestat[i] = 1
                 schedule = True
                 timeTrack += timeSchedule # insert time parameters
             elif (destNode - sourceNode) < weighted_cutoff:
-                if nodestat[sourceNode:(destNode +1)] == False:     
+                if nodestat[sourceNode:(destNode +1)] == [False] * (destNode +1 - sourceNode):     
                     global nodestat[sourceNode:(destNode +1)] = [1] * ((destNode +1) - sourceNode)
                     schedule = True
                     timeTrack += timeSchedule # insert time parameters
