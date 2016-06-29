@@ -10,7 +10,11 @@ class request:
         self.scheduled      = False
         self.transmitted    = False
         
-    def __del__(self):
+    def release():
+        if lastReqFlag:
+            isover = True
+        activereq.pop()
+
         
     def reqProcessing(t):
         if ~scheduled:
@@ -18,6 +22,7 @@ class request:
         elif ~transmitted:
             transmit()
         elif timeTrack == t:
+            release()
 
 
     def schedule():
@@ -70,5 +75,6 @@ class request:
 
     
     def transmit(): 
+        timeTrack += tCloseChannels #insert addition parameters
     pass
     
