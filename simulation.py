@@ -1,4 +1,5 @@
 from request import request
+import config
 
 #Converts a log file of XY coordinates to node numbers and returns a reduced list of lists that contains the log information in its elements.
 #Ex.     S|D |#|V|tStamp
@@ -25,51 +26,23 @@ def convXYtoNode(logFile):
     return newBenchmark
 
 
-
-
-
-
-activeReq = []
-nodestat = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-isover = False
-OCC = 40 #GHz
-ECC = 2 #GHz
-packetSize = 1 #bits
-nodeCount = 16
-logFile = 'test_flow_barnes.log' # the log file that will be tested
-
-#Global time constants to account for certain processes.
-EccToOcc       = OCC/ECC
-tBuffer        = 1 *EccToOcc
-tMUX           = 1 *EccToOcc
-tSequence      = 1 *EccToOcc
-tSchedule      = 1 *EccToOcc
-tOpenChannels  = 1 *EccToOcc
-tCloseChannels = 1 *EccToOcc
-
-
-
-nodeBenchmarkList = convXYtoNode(logFile)
-listlen = len(nodeBenchmarkList)
-endFlag = False
-t = 0
+nodeBenchmarkList = convXYtoNode(config.logFile)
+listLen = len(nodeBenchmarkList)
 reqCount = 0
-
-
-
+endFlag = False
 
 while ~isover:
-    while t == nodeBenchmarkList[reqCount][4] & ~endFlag:
-        if (reqCount +1) == listlen:
+    while config.t == nodeBenchmarkList[reqCount][4] & ~endFlag:
+        if (reqCount +1) == listLen:
             endFlag = True
-        activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
-        print activeReq
+        config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
+        print config.activeReq
         print "new list \n \n \n"
         reqCount += 1
 
-        for req in activeReq:
-        	req.reqProcessing(t)
-    t += 1
+        for req in config.activeReq:
+        	req.reqProcessing(config.t)
+    config.t += 1
 
 
-print t
+print config.t
