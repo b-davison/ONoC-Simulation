@@ -1,4 +1,5 @@
 import config
+
 class request:
 	# This is the initializer for the request class
     def __init__(self, sourceNode, destNode, volume, timeStamp,timeTrack,lastReqFlag):
@@ -28,17 +29,17 @@ class request:
         if (self.destNode - self.sourceNode) <= (config.nodeCount - self.destNode + self.sourceNode):
 			# checks that path is available and if so reserves path
             if (config.nodestate[self.sourceNode:(self.destNode +1)] == [False] * (self.destNode +1 - self.sourceNode)):     
-                config.nodestate[self.sourceNode:(dself.estNode +1)] = [1] * ((self.destNode +1) - self.sourceNode)
-                self.schedule = True
+                config.nodestate[self.sourceNode:(self.destNode +1)] = [1] * ((self.destNode +1) - self.sourceNode)
+                self.scheduled = True
                 self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
                 self.right = True
 
-            elif (config.nodeCount - self.destNode + self.sourceNode) < weighted_cutoff:
-                if (config.nodestate[0:(self.sourceNode +1)] == [False] * (self.sourceNode +1)) & (config.nodestate[self.destNode:] == [False] * (self.nodeCount - self.destNode)):
+            elif (config.nodeCount - self.destNode + self.sourceNode) < config.weighted_cutoff:
+                if (config.nodestate[0:(self.sourceNode +1)] == [False] * (self.sourceNode +1)) & (config.nodestate[self.destNode:] == [False] * (config.nodeCount - self.destNode)):
                     for i in config.nodestate:
                         if i <= self.sourceNode | i >= self.destNode:
                             config.nodestate[i] = 1
-                    self.schedule = True
+                    self.scheduled = True
                     self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
                 else:
                     self.timeTrack += 1
@@ -49,16 +50,17 @@ class request:
                 for i in config.nodestate:
                     if i <= self.sourceNode | i >= self.destNode:
                         config.nodestate[i] = 1
-                self.schedule = True
+                self.scheduled = True
                 self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
-            elif (self.destNode - self.sourceNode) < weighted_cutoff:
+            elif (self.destNode - self.sourceNode) < config.weighted_cutoff:
                 if config.nodestate[self.sourceNode:(self.destNode +1)] == [False] * (self.destNode +1 - self.sourceNode):     
                     config.nodestate[self.sourceNode:(self.destNode +1)] = [1] * ((self.destNode +1) - self.sourceNode)
-                    self.schedule = True
+                    self.scheduled = True
                     self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
                     self.right = True
                 else:
                     self.timeTrack += 1
+        
             else:
                 self.timeTrack += 1
 
@@ -79,7 +81,7 @@ class request:
                     if i <= self.sourceNode | i >= self.destNode:
                         config.nodestate[i] = 0
         if self.lastReqFlag:
-            isover = True
+            config.isover = True
         config.activeReq.remove(self)
     pass
 

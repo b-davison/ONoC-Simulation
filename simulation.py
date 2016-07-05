@@ -31,9 +31,9 @@ listLen = len(nodeBenchmarkList)
 reqCount = 0
 endFlag = False
 
-while ~isover:
-    while config.t == nodeBenchmarkList[reqCount][4] & ~endFlag:
-        if (reqCount +1) == listLen:
+while ~config.isover:
+    while config.t == ~endFlag & nodeBenchmarkList[reqCount][4]:
+        if (reqCount + 2) == listLen:
             endFlag = True
         config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
         print config.activeReq
