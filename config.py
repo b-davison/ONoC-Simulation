@@ -5,7 +5,8 @@ OCC = 40 #GHz
 ECC = 2 #GHz
 packetSize = 1 #bits
 nodeCount = 16
-logFile = 'test_flow_barnes.log' # the log file that will be tested
+logFile = 'flow_barnes.log' # the log file that will be tested
+weighted_cutoff = 9 # max nodes allowedd to be bypassed on furthest path
 
 #Global time constants to account for certain processes.
 EccToOcc       = OCC/ECC

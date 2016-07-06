@@ -1,5 +1,6 @@
 from request import request
 import config
+import time
 
 #Converts a log file of XY coordinates to node numbers and returns a reduced list of lists that contains the log information in its elements.
 #Ex.     S|D |#|V|tStamp
@@ -25,24 +26,28 @@ def convXYtoNode(logFile):
             newBenchmark.append(newRow)
     return newBenchmark
 
-
+startTime = time.time()
 nodeBenchmarkList = convXYtoNode(config.logFile)
 listLen = len(nodeBenchmarkList)
+print 'ListLenght:' + str(listLen)
 reqCount = 0
 endFlag = False
+t = 0
 
-while ~isover:
-    while config.t == nodeBenchmarkList[reqCount][4] & ~endFlag:
-        if (reqCount +1) == listLen:
+while config.isover == False:
+    while  (t == nodeBenchmarkList[reqCount][4] and endFlag==False):
+        if reqCount+1 == listLen:
             endFlag = True
         config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
-        print config.activeReq
-        print "new list \n \n \n"
-        reqCount += 1
+        if endFlag == False:
+            reqCount += 1
 
-        for req in config.activeReq:
-        	req.reqProcessing(config.t)
-    config.t += 1
+    for req in config.activeReq:
+    	req.reqProcessing(t)
+    t += 1
 
-
-print config.t
+print config.nodestate
+print 'Optical Clock Cycles: '+ str(t)
+totalTime = float(t)/(config.OCC*(10**9))
+print 'Runtime: '+ str(totalTime) +'seconds'
+print 'Time for Program: ' + str(time.time()-startTime)
