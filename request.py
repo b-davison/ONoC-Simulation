@@ -20,9 +20,10 @@ class request:
     def schedule(self):
 		# makes source lower than destination
         if self.sourceNode > self.destNode:
-			temp = self.sourceNode
-			self.sourceNode = self.destNode
-			self.destNode = temp 
+            temp = self.sourceNode
+            self.sourceNode = self.destNode
+            self.destNode = temp 
+            
 
 		# checks for shortest path
 		# first if triggers if direct (e.g. 123...14 15 16) path is the shortest or equadistant, elif triggers if opposite direction path is shorter
@@ -33,6 +34,9 @@ class request:
                 self.scheduled = True
                 self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
                 self.right = True
+                print config.nodestate
+                
+
 
             elif (config.nodeCount - self.destNode + self.sourceNode) < config.weighted_cutoff:
                 if (config.nodestate[0:(self.sourceNode +1)] == [False] * (self.sourceNode +1)) & (config.nodestate[self.destNode:] == [False] * (config.nodeCount - self.destNode)):
@@ -60,19 +64,34 @@ class request:
                     self.right = True
                 else:
                     self.timeTrack += 1
-        
+
             else:
                 self.timeTrack += 1
 
 
+        #Transmission here
+        if self.scheduled == True:
+            volume = self.volume
+            dataTransTime = volume*config.packetSize/(config.OCC*(10**9)) 
+            self.timeTrack += config.tCloseChannels + config.tOpenChannels + dataTransTime #insert addition parameters
+            self.transmitted = True
 
 
 
 
-    def transmit(self):
-        volume = self.volume
-        dataTransTime = volume*config.packetsize/(config.OCC*(10**9)) 
-        self.timeTrack += config.tCloseChannels + config.topenChannels + dataTransTime #insert addition parameters
+    def delete_self(req):
+        config.activeReq.remove(req)
+
+
+
+    # def transmit(self):
+    #     volume = self.volume
+    #     dataTransTime = volume*config.packetSize/(config.OCC*(10**9)) 
+    #     self.timeTrack += config.tCloseChannels + config.tOpenChannels + dataTransTime #insert addition parameters
+    #     self.transmitted = True
+
+
+
     def release(self):
         if self.right == True:
             config.nodestate[self.sourceNode:(self.destNode +1)] = [0] * ((self.destNode +1) - self.sourceNode)
@@ -82,14 +101,27 @@ class request:
                         config.nodestate[i] = 0
         if self.lastReqFlag:
             config.isover = True
-        config.activeReq.remove(self)
-    pass
+        self.delete_self()
+    
 
 
     def reqProcessing(self, t):
-        if ~self.scheduled:
+        if self.scheduled == False:
             self.schedule()
-        elif ~self.transmitted:
-            self.transmit()
-        elif self.timeTrack == t:
+            
+        # if (self.transmitted == False) & self.scheduled == True):
+        #     self.transmit()
+            
+        if (self.scheduled == True) & (self.timeTrack <= t):
+            #print "I'm here"
             self.release()
+            print "Fuck"
+
+
+
+
+    pass
+
+
+
+    

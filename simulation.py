@@ -28,21 +28,33 @@ def convXYtoNode(logFile):
 
 nodeBenchmarkList = convXYtoNode(config.logFile)
 listLen = len(nodeBenchmarkList)
+print listLen
 reqCount = 0
 endFlag = False
+t = 0
 
-while ~config.isover:
-    while config.t == ~endFlag & nodeBenchmarkList[reqCount][4]:
-        if (reqCount + 2) == listLen:
+while config.isover == False:
+    while  (t == nodeBenchmarkList[reqCount][4]):
+        if reqCount+1 == listLen:
             endFlag = True
         config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
-        print config.activeReq
-        print "new list \n \n \n"
-        reqCount += 1
-
-        for req in config.activeReq:
-        	req.reqProcessing(config.t)
-    config.t += 1
+        if endFlag == False:
+            reqCount += 1
 
 
-print config.t
+    for req in config.activeReq:
+    	req.reqProcessing(t)
+        print req.scheduled
+        print req.transmitted
+        print req.timeStamp
+        print req.timeTrack
+        print t
+        print "\n"
+    t += 1
+
+
+    print config.activeReq
+    print "new list \n \n \n"
+
+
+print t
