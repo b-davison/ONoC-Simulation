@@ -10,7 +10,7 @@ class request:
         self.timeTrack      = timeStamp
         self.lastReqFlag    = lastReqFlag
         self.scheduled      = False
-        self.transmitted    = False
+        #self.transmitted    = False
         self.right          = False
 
 
@@ -54,12 +54,12 @@ class request:
                     if i <= self.sourceNode | i >= self.destNode:
                         config.nodestate[i] = 1
                 self.scheduled = True
-                self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
+                self.timeTrack += config.tInitialize # insert time parameters
             elif (self.destNode - self.sourceNode) < config.weighted_cutoff:
                 if config.nodestate[self.sourceNode:(self.destNode +1)] == [False] * (self.destNode +1 - self.sourceNode):     
                     config.nodestate[self.sourceNode:(self.destNode +1)] = [1] * ((self.destNode +1) - self.sourceNode)
                     self.scheduled = True
-                    self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
+                    self.timeTrack += config.tInitialize # insert time parameters
                     self.right = True
                 else:
                     self.timeTrack += 1
@@ -70,10 +70,9 @@ class request:
 
         #Transmission here
         if self.scheduled == True:
-            volume = self.volume
-            dataTransTime = volume*config.packetSize/(config.OCC*(10**9)) 
-            self.timeTrack += config.tCloseChannels + config.tOpenChannels + dataTransTime #insert addition parameters
-            self.transmitted = True
+            dataTransTime = self.volume*config.packetSize/(config.OCC*(10**9)) 
+            self.timeTrack += config.tChannelAloc + dataTransTime #insert addition parameters
+            #self.transmitted = True
 
 
 

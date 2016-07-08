@@ -14,8 +14,12 @@ tBuffer        = 1 *EccToOcc
 tMUX           = 1 *EccToOcc
 tSequence      = 1 *EccToOcc
 tSchedule      = 1 *EccToOcc
+tInitialize = tBuffer + tMUX + tSequence + tSchedule
 tOpenChannels  = 1 *EccToOcc
 tCloseChannels = 1 *EccToOcc
+
+tInitialize = tBuffer + tMUX + tSequence + tSchedule
+tChannelAloc = tOpenChannels + tCloseChannels
 
 #Global clock cycle constant for tracking t clock intervals
 t = 0

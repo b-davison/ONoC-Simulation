@@ -22,14 +22,15 @@ def convXYtoNode(logFile):
     for row in benchmark:
         if (row[0] != 0) & (row[2] != 0):
             newRow = [(row[0] - 1) * 8 + row[1], (row[2] - 1) * 8 + row[3]]
-            newRow.extend(row[4:])
+            newRow.extend(row[4:6])
+            newRow.append(row[6]*config.EccToOcc)
             newBenchmark.append(newRow)
     return newBenchmark
 
 startTime = time.time()
 nodeBenchmarkList = convXYtoNode(config.logFile)
 listLen = len(nodeBenchmarkList)
-print 'ListLenght:' + str(listLen)
+print 'ListLength:' + str(listLen)
 reqCount = 0
 endFlag = False
 t = 0
