@@ -32,7 +32,7 @@ class request:
             if (config.nodestate[self.sourceNode:(self.destNode +1)] == [False] * (self.destNode +1 - self.sourceNode)):     
                 config.nodestate[self.sourceNode:(self.destNode +1)] = [1] * ((self.destNode +1) - self.sourceNode)
                 self.scheduled = True
-                self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
+                self.timeTrack += config.tInitialize # insert time parameters
                 self.right = True
                 
 
@@ -43,7 +43,7 @@ class request:
                         if i <= self.sourceNode | i >= self.destNode:
                             config.nodestate[i] = 1
                     self.scheduled = True
-                    self.timeTrack += config.tBuffer + config.tMUX + config.tSequence + config.tSchedule # insert time parameters
+                    self.timeTrack += config.tInitialize # insert time parameters
                 else:
                     self.timeTrack += 1
             else:
@@ -117,6 +117,7 @@ class request:
 
 
     pass
+
 
 
 
