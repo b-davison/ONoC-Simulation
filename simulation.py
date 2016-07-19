@@ -29,6 +29,7 @@ def convXYtoNode(logFile):
     return newBenchmark
 
 
+<<<<<<< HEAD
 
 
 #Pre-Condition: Number of nodes to be used is input into function
@@ -93,3 +94,37 @@ for i in range(0,len(config.benchmarks)):
     print 'Time for Program: ' + str(tProgram)
 
     writeResults(config.benchmarksOnly[i], t,totalTime, tProgram)
+=======
+nodeBenchmarkList = convXYtoNode(config.logFile)
+listLen = len(nodeBenchmarkList)
+print listLen
+reqCount = 0
+endFlag = False
+t = 0
+
+while config.isover == False:
+    while  (t == nodeBenchmarkList[reqCount][4]):
+        if reqCount+1 == listLen:
+            endFlag = True
+        config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
+        if endFlag == False:
+            reqCount += 1
+
+
+    for req in config.activeReq:
+    	req.reqProcessing(t)
+        print req.scheduled
+        print req.transmitted
+        print req.timeStamp
+        print req.timeTrack
+        print t
+        print "\n"
+    t += 1
+
+
+    print config.activeReq
+    print "new list \n \n \n"
+
+
+print t
+>>>>>>> refs/remotes/origin/master
