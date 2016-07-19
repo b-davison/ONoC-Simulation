@@ -1,12 +1,29 @@
+import os, sys
+
+
+# Pre: Requires correct directory of benchmarks in variable path
+# Post: Creates list of benchmarks
+path = 'C:\\Users\\NinetyBear\\Documents\\Visual Studio 2015\\Projects\\ONoC Simulator\\PythonApplication1\\Benchmark Data\\16-core'
+dirs = os.listdir(path)
+benchmarks = []
+benchmarksOnly = []
+
+# Appends all benchmarks in directory into one list
+
+for file in dirs:
+    benchmarks.append(file)
+    benchmarksOnly.append(file)
+for i in range(0,len(benchmarks)):
+    benchmarks[i] = path + '\\' + benchmarks[i]
 activeReq = []
 nodestate = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 isover = False
 OCC = 40 #GHz
 ECC = 2 #GHz
-packetSize = 1 #bits
+packetSize = 8 #bits
 nodeCount = 16
-logFile = 'flow_barnes.log' # the log file that will be tested
-weighted_cutoff = 9 # max nodes allowedd to be bypassed on furthest path
+weighted_cutoff = 9 # max nodes allowed to be bypassed on furthest path
+
 
 #Global time constants to account for certain processes.
 EccToOcc       = OCC/ECC
