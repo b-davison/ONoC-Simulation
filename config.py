@@ -45,3 +45,6 @@ tChannelAloc = tOpenChannels + tCloseChannels
 
 #Global clock cycle constant for tracking t clock intervals
 t = 0
+
+
+#FUCK
