@@ -22,13 +22,12 @@ OCC = 40 #GHz
 ECC = 2 #GHz
 packetSize = 8 #bits
 nodeCount = 16
-<<<<<<< HEAD
+
 weighted_cutoff = 9 # max nodes allowed to be bypassed on furthest path
 
-=======
 logFile = 'test_flow_barnes.log' # the log file that will be tested
 weighted_cutoff = 9 # max nodes allowedd to be bypassed on furthest path
->>>>>>> refs/remotes/origin/master
+
 
 #Global time constants to account for certain processes.
 EccToOcc       = OCC/ECC
