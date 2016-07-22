@@ -29,7 +29,6 @@ def convXYtoNode(logFile):
     return newBenchmark
 
 
-<<<<<<< HEAD
 
 
 #Pre-Condition: Number of nodes to be used is input into function
@@ -94,7 +93,7 @@ for i in range(0,len(config.benchmarks)):
     print 'Time for Program: ' + str(tProgram)
 
     writeResults(config.benchmarksOnly[i], t,totalTime, tProgram)
-=======
+
 nodeBenchmarkList = convXYtoNode(config.logFile)
 listLen = len(nodeBenchmarkList)
 print listLen
@@ -127,4 +126,4 @@ while config.isover == False:
 
 
 print t
->>>>>>> refs/remotes/origin/master
+

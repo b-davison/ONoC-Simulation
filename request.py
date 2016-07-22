@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import config
 
 class request:
@@ -122,8 +122,7 @@ class request:
 
 
 
-    
-=======
+
 import config
 
 class request:
@@ -250,5 +249,3 @@ class request:
 
 
 
-    
->>>>>>> refs/remotes/origin/master
