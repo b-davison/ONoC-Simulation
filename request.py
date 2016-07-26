@@ -3,13 +3,12 @@ import config
 
 class request:
 	# This is the initializer for the request class
-    def __init__(self, sourceNode, destNode, volume, timeStamp,timeTrack,lastReqFlag):
+    def __init__(self, sourceNode, destNode, volume, timeStamp,timeTrack):
         self.sourceNode     = sourceNode
         self.destNode       = destNode
         self.volume         = volume
         self.timeStamp      = timeStamp
         self.timeTrack      = timeStamp
-        self.lastReqFlag    = lastReqFlag
         self.scheduled      = False
         #self.transmitted    = False
         self.right          = False
@@ -224,8 +223,6 @@ class request:
             for i in config.nodestate:
                     if i <= self.sourceNode | i >= self.destNode:
                         config.nodestate[i] = 0
-        if self.lastReqFlag:
-            config.isover = True
         self.delete_self()
     
 

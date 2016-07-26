@@ -17,7 +17,6 @@ import os, sys
 #     benchmarks[i] = path + '\\' + benchmarks[i]
 activeReq = []
 nodestate = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-isover = False
 OCC = 40 #GHz
 ECC = 2 #GHz
 packetSize = 8 #bits

@@ -66,22 +66,27 @@ for i in range(0,len(config.benchmarks)):
     print 'ListLength:' + str(listLen)
     reqCount = 0
     endFlag = False
-    config.isover = False
+    isover = False
     config.nodestate = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     t = 0
 
-    while config.isover == False:
+
+    while isover == False:
         while  (t == nodeBenchmarkList[reqCount][4] and endFlag==False):
             if reqCount+1 == listLen:
                 endFlag = True
-            config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
+            config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4])
             if endFlag == False:
                 reqCount += 1
 
         for req in config.activeReq:
             req.reqProcessing(t)
         t += 1
+
+        if (endFlag == True) & (config.activeReq == []) & (config.nodestate == [0] * config.nodeCount):
+            isover = True
+
 
 
 
@@ -94,36 +99,5 @@ for i in range(0,len(config.benchmarks)):
 
     writeResults(config.benchmarksOnly[i], t,totalTime, tProgram)
 
-nodeBenchmarkList = convXYtoNode(config.logFile)
-listLen = len(nodeBenchmarkList)
-print listLen
-reqCount = 0
-endFlag = False
-t = 0
 
-while config.isover == False:
-    while  (t == nodeBenchmarkList[reqCount][4]):
-        if reqCount+1 == listLen:
-            endFlag = True
-        config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],endFlag))
-        if endFlag == False:
-            reqCount += 1
-
-
-    for req in config.activeReq:
-    	req.reqProcessing(t)
-        print req.scheduled
-        print req.transmitted
-        print req.timeStamp
-        print req.timeTrack
-        print t
-        print "\n"
-    t += 1
-
-
-    print config.activeReq
-    print "new list \n \n \n"
-
-
-print t
 
