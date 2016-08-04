@@ -6,7 +6,6 @@
 
 
 import config
-import time
 import numpy as np
 
 # borrowed code    
@@ -37,13 +36,8 @@ import numpy as np
 # nodeBenchmarkList = convXYtoNode(config.logFile)
 # borrowed code
 
-def rank():
-    n = 0
-    for row in trafficto:
-        for i in range(0,n):
-            if ~(row[4] == 0):
-                trafpositions.append((n,i,row[i]))
-        n += 1
+
+
 
 def getsortkey(item):
     return item[2]
@@ -78,7 +72,6 @@ def nearestNeighbourKeygen(benchmark):
     trafpositions = []
 
     for row in benchmark:
-        print row[4]
         trafficto[row[0]][row[1]] += row[4]
         trafficto[row[1]][row[0]] += row[4]
 
@@ -86,14 +79,17 @@ def nearestNeighbourKeygen(benchmark):
     # 	print row 
 
     #used to find highest trafic node pair to serve as a starting position
-    rank()
+    n = 0
+    for row in trafficto:
+        for i in range(0,n):
+            if ~(row[4] == 0):
+                trafpositions.append((n,i,row[i]))
+        n += 1
     ntraffic = sorted(trafpositions, key=getsortkey)
 
 
     key = NN(trafficto, ntraffic[0][1])
 
-    print "This is the neARST NEIGHBOUR key"
-    print key
     return key
 
 
@@ -105,6 +101,5 @@ def nearestNeighbourKeygen(benchmark):
 #     #check key
 #     if s in key:
 #         if d in key:
-
 
 

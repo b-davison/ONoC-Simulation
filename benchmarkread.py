@@ -26,6 +26,10 @@ with open(filename,"r") as bmread:
 			b.append(int(i))
 		benchmark.append(b)
 
+print benchmark[350:400]
+
+print '\n \n BREAK \n \n'
+
 out = []
 for row in benchmark:
 	if (row[0] != 0) & (row[2] != 0):
@@ -33,6 +37,7 @@ for row in benchmark:
 		d.extend(row[4:])
 		out.append(d)
 
+print out[250:300]
 
 
 
