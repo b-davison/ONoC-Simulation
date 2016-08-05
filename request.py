@@ -3,14 +3,14 @@ import config
 
 class request:
 	# This is the initializer for the request class
-    def __init__(self, sourceNode, destNode, volume, timeStamp,timeTrack):
+    def __init__(self, sourceNode, destNode, volume, timeStamp,timeTrack, reqID):
         self.sourceNode     = sourceNode
         self.destNode       = destNode
         self.volume         = volume
         self.timeStamp      = timeStamp
         self.timeTrack      = timeStamp
+        self.reqID          = reqID
         self.scheduled      = False
-        #self.transmitted    = False
         self.right          = False
 
 
@@ -36,8 +36,6 @@ class request:
                 self.right = True
                 config.comCost += ((self.destNode - self.sourceNode)-1) * self.volume * config.packetSize
                 
-
-
             elif (config.nodeCount - self.destNode + self.sourceNode) < config.weighted_cutoff:
                 if (config.nodestate[0:(self.sourceNode +1)] == [False] * (self.sourceNode +1)) & (config.nodestate[self.destNode:] == [False] * (config.nodeCount - self.destNode)):
                     for i in config.nodestate:
@@ -49,8 +47,10 @@ class request:
                     
                 else:
                     self.timeTrack += 1*config.EccToOcc
+                    config.numBlocked += 1
             else:
                 self.timeTrack += 1*config.EccToOcc
+                config.numBlocked += 1
         else:
             if (config.nodestate[0:(self.sourceNode +1)] == [False] * (self.sourceNode +1)) & (config.nodestate[self.destNode:] == [False] * (config.nodeCount - self.destNode)):
                 for i in config.nodestate:
@@ -68,9 +68,11 @@ class request:
                     config.comCost += ((self.destNode - self.sourceNode)-1) * self.volume * config.packetSize
                 else:
                     self.timeTrack += 1*config.EccToOcc
+                    config.numBlocked += 1
 
             else:
                 self.timeTrack += 1*config.EccToOcc
+                config.numBlocked += 1
 
 
         #Transmission here
@@ -85,13 +87,6 @@ class request:
     def delete_self(req):
         config.activeReq.remove(req)
 
-
-
-    # def transmit(self):
-    #     volume = self.volume
-    #     dataTransTime = volume*config.packetSize/(config.OCC*(10**9)) 
-    #     self.timeTrack += config.tCloseChannels + config.tOpenChannels + dataTransTime #insert addition parameters
-    #     self.transmitted = True
 
 
 

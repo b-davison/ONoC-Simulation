@@ -105,7 +105,7 @@ for i in range(0,len(config.benchmarks)):
     print config.benchmarksOnly[i]
     print '-----------------' + '\n'
     print 'ListLength:' + str(listLen)
-    for reconfigs in range(0,4):
+    for reconfigs in range(0,5):
         startTime = time.time()
         nodeBenchmarkList = ConstnodeBenchmarkList
         reqCount = 0
@@ -117,7 +117,6 @@ for i in range(0,len(config.benchmarks)):
         t = 0
         if reconfigs == 0:
             currentReconfiguration = "Numerical"
-           
 
         if reconfigs == 1:
             nodeBenchmarkList = mapping(randKey1,nodeBenchmarkList)
@@ -131,18 +130,12 @@ for i in range(0,len(config.benchmarks)):
             nodeBenchmarkList = mapping(randKey3,nodeBenchmarkList)
             currentReconfiguration = "Random3"
 
-        # if reconfigs == 4:
-
-        #     nNKey = generateNNKey(config.benchmarksOnly[i],nnDictKey)
-
-        #     nodeBenchmarkList = mapping(nNKey,nodeBenchmarkList)
-        #     currentReconfiguration = "nNeighbor"
 
         while isover == False:
             while  (t <= nodeBenchmarkList[reqCount][4] and endFlag==False):
                 if reqCount+1 == listLen:
                     endFlag = True
-                config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4]))
+                config.activeReq.append(request(nodeBenchmarkList[reqCount][0],nodeBenchmarkList[reqCount][1],nodeBenchmarkList[reqCount][3],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][4],nodeBenchmarkList[reqCount][2]))
                 if endFlag == False:
                     reqCount += 1
 
@@ -150,8 +143,8 @@ for i in range(0,len(config.benchmarks)):
             for req in config.activeReq:
                 req.reqProcessing(t)
             t += 1*config.EccToOcc
-            if (endFlag == True) & (len(config.activeReq) == 0) & (config.nodestate == [0] * config.nodeCount):
-		isover = True
+            if (endFlag == True) & (len(config.activeReq) == 0) & (config.nodestate == ([0] * config.nodeCount)):
+		        isover = True
 
 
         tProgram = time.time()-startTime

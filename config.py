@@ -23,7 +23,15 @@ ECC = 2  #GHz
 packetSize = 4 #bits
 nodeCount = 16
 weighted_cutoff = 9 # max nodes allowed to be bypassed on furthest path
+
+#indicator values
 comCost = 0
+numBlocked = 0
+reqLogFile = "RequestLog.log"
+reqLog = []
+
+
+
 
 
 #Global time constants to account for certain processes.
@@ -32,7 +40,7 @@ tBuffer        = 1 *EccToOcc
 tMUX           = 1 *EccToOcc
 tSequence      = 1 *EccToOcc
 tSchedule      = 1 *EccToOcc
-tInitialize = tBuffer + tMUX + tSequence + tSchedule
+tInitialize    = tBuffer + tMUX + tSequence + tSchedule
 tOpenChannels  = 1 *EccToOcc
 tCloseChannels = 1 *EccToOcc
 
